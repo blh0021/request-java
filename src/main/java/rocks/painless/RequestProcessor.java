@@ -1,5 +1,6 @@
 package rocks.painless;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -15,8 +16,19 @@ public class RequestProcessor {
     private JSONObject config;
     private String response;
 
+
     protected void loadConfig(JSONObject cfg) {
         config = cfg;
+    }
+
+    protected String getPath() {
+        String path;
+        try {
+            path = config.getString("path");
+        } catch (JSONException jse) {
+            return "";
+        }
+        return path;
     }
 
     protected void buildQueryString() throws Exception {
@@ -24,9 +36,18 @@ public class RequestProcessor {
         if (!config.isNull("parameters")) {
             params = ParameterBuilder.getParameterString(config.getJSONObject("parameters"));
         }
-        URL url = new URL(config.getString("host") + params);
+        URL url = new URL(config.getString("host") + getPath() + params);
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(config.getString("method"));
+    }
+
+    protected void authenticate() {
+        if (config.isNull("auth"))
+            return;
+        JSONObject authConfig = config.getJSONObject("auth");
+
+        Authentication auth = new Authentication();
+        JSONObject credentials = config.getJSONObject("auth");
     }
 
     protected void buildHeaders() {

@@ -1,0 +1,12 @@
+{
+  "host": "https://jsonplaceholder.typicode.com",
+  "path": "/posts/1",
+  "method": "GET",
+  "auth": {
+    "type": "basic",
+    "credentials": {
+      "username": "test",
+      "password": "123"
+    }
+  }
+}

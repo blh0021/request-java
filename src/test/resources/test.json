@@ -1,5 +1,5 @@
 {
   "host": "https://jsonplaceholder.typicode.com/posts/1",
-  "path": "",
+  "path": null,
   "method": "GET"
 }
