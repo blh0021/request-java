@@ -9,10 +9,10 @@ import java.io.FileReader;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RequestProcessorTest {
+    private String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 
     private String getTestFile(String filename) {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        System.out.println(rootPath);
+
         File file = new File(rootPath + filename);
         String txt = "";
         String actual=null;
@@ -22,7 +22,7 @@ class RequestProcessorTest {
             while ((add = br.readLine()) != null) {
                 txt += add;
             }
-            System.out.println(txt);
+
             Request req = new Request(txt);
             actual = req.process();
         } catch(Exception e) {

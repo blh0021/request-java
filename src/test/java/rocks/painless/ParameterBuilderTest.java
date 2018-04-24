@@ -5,24 +5,25 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParameterBuilderTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getParameterStringEmpty() {
         Map<String, String> tmp = new HashMap();
         assertEquals(ParameterBuilder.getParameterString(tmp), "");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getParameterString() {
         Map<String, String> tmp = new HashMap();
         tmp.put("test", "false");
         assertEquals(ParameterBuilder.getParameterString(tmp), "?test=false");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getParameterStringMultiple() {
         Map<String, String> tmp = new HashMap();
         tmp.put("test", "false");
@@ -30,20 +31,20 @@ class ParameterBuilderTest {
         assertEquals(ParameterBuilder.getParameterString(tmp), "?test=false&junk=stuff");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getJsonObjectParameterStringEmpty() {
         JSONObject jo = new JSONObject();
         assertEquals(ParameterBuilder.getParameterString(jo), "");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getJsonObjectParameterString() {
         JSONObject jo = new JSONObject();
         jo.put("test", "false");
         assertEquals(ParameterBuilder.getParameterString(jo), "?test=false");
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getJsonObjectParameterStringMultiple() {
         JSONObject jo = new JSONObject();
         jo.put("test", "false");

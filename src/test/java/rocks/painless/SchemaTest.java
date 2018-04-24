@@ -1,6 +1,5 @@
 package rocks.painless;
 
-import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +13,7 @@ public class SchemaTest {
 
     private String getTestFile(String filename) {
         String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        //System.out.println(rootPath);
+
         File file = new File(rootPath + filename);
         String txt = "";
         try {
@@ -23,7 +22,7 @@ public class SchemaTest {
             while ((add = br.readLine()) != null) {
                 txt += add;
             }
-            System.out.println(txt);
+
         } catch(Exception e) {
             System.out.println(e);
         }
@@ -31,7 +30,7 @@ public class SchemaTest {
     }
 
     @Test
-    public void SchemaTest() {
+    public void Schema() {
         String json = getTestFile("test.json");
         ConfigSchema cs = new ConfigSchema();
         JSONObject js = new JSONObject(json);
