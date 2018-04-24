@@ -1,6 +1,6 @@
 {
-  "host": "https://jsonplaceholder.typicode.com",
-  "path": "/posts/1",
+  "host": "https://mockup-tester.herokuapp.com",
+  "path": "/posts",
   "method": "GET",
   "auth": {
     "type": "basic",

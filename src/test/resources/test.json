@@ -1,5 +1,5 @@
 {
-  "host": "https://jsonplaceholder.typicode.com/posts/1",
+  "host": "https://mockup-tester.herokuapp.com",
   "path": null,
   "method": "GET"
 }

@@ -34,12 +34,12 @@ class RequestProcessorTest {
     @Test
     void execute() {
         String actual = getTestFile("/test.json");
-        assertTrue(actual.contains("userId"));
+        assertTrue(actual.contains("Hello"));
     }
 
     @Test
     void executeWithPath() {
         String actual = getTestFile("/pathTest.json");
-        assertTrue(actual.contains("userId"));
+        assertTrue(actual.contains("title"));
     }
 }
