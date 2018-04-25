@@ -14,7 +14,53 @@
       "enum": ["GET", "POST"]
     },
     "auth": {
-      "type": "object"
+      "type": ["object", "null"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["basic", "oauth2"]
+        },
+        "oauth2": {
+          "type": ["object", "null"],
+          "properties": {
+            "grantType": {
+              "type": "string",
+              "enum": ["Authorization Code", "Client Credentials", "Implicit", "Password Credentials"]
+            },
+            "accessTokenUrl": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "callbackUrl": {
+              "type": "string"
+            },
+            "authUrl": {
+              "type": "string"
+            },
+            "clientId": {
+              "type": "string"
+            },
+            "clientSecret": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "clientAuthentication": {
+              "type": "string",
+              "enum": ["header", "body"]
+            }
+          }
+        }
+      }
     },
     "parameters": {
       "type": "object"
