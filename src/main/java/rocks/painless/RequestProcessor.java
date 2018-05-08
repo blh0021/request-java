@@ -105,7 +105,11 @@ public class RequestProcessor {
         JSONObject js = new JSONObject();
         for (Map.Entry<String, List<String>> element : responseHeaders.entrySet()) {
             String result = StringEscapeUtils.escapeJava(element.getValue().get(0));
-            js.put(element.getKey(), result);
+            if (element.getKey() == null) {
+                js.put("Status", result);
+            } else {
+                js.put(element.getKey(), result);
+            }
         }
         return js;
     }

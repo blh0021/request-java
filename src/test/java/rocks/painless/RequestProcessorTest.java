@@ -31,6 +31,26 @@ class RequestProcessorTest {
         return actual;
     }
 
+    private String getHeaders(String filename) {
+
+        File file = new File(rootPath + filename);
+        String txt = "";
+        String actual=null;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String add;
+            while ((add = br.readLine()) != null) {
+                txt += add;
+            }
+
+            Request req = new Request(txt);
+            req.process();
+            actual = req.responseHeaders().toString(4);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        return actual;
+    }
     @Test
     void execute() {
         String actual = getTestFile("/test.json");
@@ -41,5 +61,11 @@ class RequestProcessorTest {
     void executeWithPath() {
         String actual = getTestFile("/pathTest.json");
         assertTrue(actual.contains("title"));
+    }
+
+    @Test
+    void testingHeaders() {
+        String actual = getHeaders("/test.json");
+        assertTrue(actual.contains("200"));
     }
 }
