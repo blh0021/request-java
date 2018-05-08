@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class RequestProcessor {
 
@@ -44,10 +46,9 @@ public class RequestProcessor {
     protected void authenticate() {
         if (config.isNull("auth"))
             return;
-        JSONObject authConfig = config.getJSONObject("auth");
-
-        Authentication auth = new Authentication();
-        JSONObject credentials = config.getJSONObject("auth");
+        Authentication auth = new Authentication(config.getJSONObject("auth"));
+        KeyValuePair map = auth.process();
+        connection.addRequestProperty(map.key, map.value);
     }
 
     protected void buildHeaders() {

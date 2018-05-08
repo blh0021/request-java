@@ -1,0 +1,14 @@
+{
+  "host": "https://mockup-tester.herokuapp.com",
+  "path": "/oauth2/posts",
+  "method": "GET",
+  "auth": {
+    "type": "oauth2",
+    "oauth2": {
+      "grantType": "Client Credentials",
+      "accessTokenUrl": "https://mockup-tester.herokuapp.com/oauth2/token",
+      "username": "test",
+      "password": "pass"
+    }
+  }
+}
