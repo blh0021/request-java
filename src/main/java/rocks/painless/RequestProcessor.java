@@ -44,10 +44,7 @@ public class RequestProcessor {
     protected void authenticate() {
         if (config.isNull("auth"))
             return;
-        JSONObject authConfig = config.getJSONObject("auth");
-
-        Authentication auth = new Authentication();
-        JSONObject credentials = config.getJSONObject("auth");
+        Authentication auth = new Authentication(config.getJSONObject("auth"));
     }
 
     protected void buildHeaders() {

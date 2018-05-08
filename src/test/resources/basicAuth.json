@@ -4,7 +4,7 @@
   "method": "GET",
   "auth": {
     "type": "basic",
-    "credentials": {
+    "basic": {
       "username": "test",
       "password": "123"
     }

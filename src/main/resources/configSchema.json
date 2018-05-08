@@ -15,10 +15,22 @@
     },
     "auth": {
       "type": ["object", "null"],
+      "additionalProperties": false,
       "properties": {
         "type": {
           "type": "string",
           "enum": ["basic", "oauth2"]
+        },
+        "basic": {
+          "type": ["object", "null"],
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
         },
         "oauth2": {
           "type": ["object", "null"],
