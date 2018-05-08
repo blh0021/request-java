@@ -2,6 +2,9 @@ package rocks.painless;
 
 import org.json.JSONObject;
 
+import java.util.List;
+import java.util.Map;
+
 public class Request {
 
     private JSONObject request;
@@ -29,5 +32,17 @@ public class Request {
             System.out.println(schema.getErrors());
         }
         return null;
+    }
+
+    public Long responseTime() {
+        return rp.getResponseTime();
+    }
+
+    public int responseCode() {
+        return rp.getResponseCode();
+    }
+
+    public Map<String, List<String>> responseHeaders() {
+        return rp.getResponseHeaders();
     }
 }

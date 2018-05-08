@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class RequestProcessor {
@@ -17,7 +19,10 @@ public class RequestProcessor {
     private HttpURLConnection connection;
     private JSONObject config;
     private String response;
-
+    private Long responseTime;
+    private int responseCode;
+    private String contentType;
+    private Map<String, List<String>> responseHeaders;
 
     protected void loadConfig(JSONObject cfg) {
         config = cfg;
@@ -63,6 +68,7 @@ public class RequestProcessor {
     }
 
     protected String execute() throws IOException {
+        Timestamp start = new Timestamp(System.currentTimeMillis());
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String input;
         StringBuffer content = new StringBuffer();
@@ -70,7 +76,27 @@ public class RequestProcessor {
             content.append(input);
         }
         in.close();
+        Timestamp end = new Timestamp(System.currentTimeMillis());
+        responseTime = end.getTime()-start.getTime();
         response = content.toString();
+        setConnectionInfo();
         return response;
+    }
+
+    private void setConnectionInfo() throws IOException {
+        responseCode = connection.getResponseCode();
+        responseHeaders = connection.getHeaderFields();
+    }
+
+    protected Long getResponseTime() {
+        return responseTime;
+    }
+
+    protected int getResponseCode() {
+        return responseCode;
+    }
+
+    protected Map<String, List<String>> getResponseHeaders() {
+        return responseHeaders;
     }
 }
