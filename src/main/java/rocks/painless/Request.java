@@ -20,6 +20,7 @@ public class Request {
         if (schema.validate(request)) {
             rp.loadConfig(request);
             rp.buildQueryString();
+            rp.authenticate();
             rp.buildHeaders();
             String tmp = "";
             tmp = rp.execute();
