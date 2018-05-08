@@ -3,13 +3,14 @@ package rocks.painless;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -98,5 +99,14 @@ public class RequestProcessor {
 
     protected Map<String, List<String>> getResponseHeaders() {
         return responseHeaders;
+    }
+
+    protected JSONObject getResponseHeadersJson() {
+        JSONObject js = new JSONObject();
+        for (Map.Entry<String, List<String>> element : responseHeaders.entrySet()) {
+            String result = StringEscapeUtils.escapeJava(element.getValue().get(0));
+            js.put(element.getKey(), result);
+        }
+        return js;
     }
 }
