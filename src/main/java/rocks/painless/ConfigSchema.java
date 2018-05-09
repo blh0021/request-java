@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ConfigSchema {
-    private String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     private Schema schema;
     private String errors;
 
@@ -23,7 +22,6 @@ public class ConfigSchema {
     }
 
     private void schemaLoader() throws IOException{
-        System.out.println(rootPath);
         try (InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("configSchema.json")){
             JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
             schema = SchemaLoader.load(rawSchema);
