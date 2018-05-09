@@ -1,8 +1,11 @@
 package rocks.painless;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 public class Request {
+
+    final static Logger logger = Logger.getLogger(Request.class);
 
     private JSONObject request;
     private RequestProcessor rp = new RequestProcessor();
@@ -26,7 +29,7 @@ public class Request {
             tmp = rp.execute();
             return tmp;
         } else {
-            System.out.println(schema.getErrors());
+            logger.warn(schema.getErrors());
         }
         return null;
     }

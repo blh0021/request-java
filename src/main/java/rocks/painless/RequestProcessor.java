@@ -1,5 +1,6 @@
 package rocks.painless;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +26,8 @@ public class RequestProcessor {
     private int responseCode;
     private String contentType;
     private Map<String, List<String>> responseHeaders;
+
+    final static Logger logger = Logger.getLogger(RequestProcessor.class);
 
     protected void loadConfig(JSONObject cfg) {
         config = cfg;
@@ -85,6 +88,7 @@ public class RequestProcessor {
             setConnectionInfo();
 
         } catch(FileNotFoundException fne) {
+            logger.error("Status Code 404");
             response = "{\"error\": 404}";
             responseCode = 404;
         }
