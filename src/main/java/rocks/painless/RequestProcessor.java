@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -70,17 +71,23 @@ public class RequestProcessor {
 
     protected String execute() throws IOException {
         Timestamp start = new Timestamp(System.currentTimeMillis());
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String input;
-        StringBuffer content = new StringBuffer();
-        while((input = in.readLine()) != null) {
-            content.append(input);
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String input;
+            StringBuffer content = new StringBuffer();
+            while((input = in.readLine()) != null) {
+                content.append(input);
+            }
+            in.close();
+            Timestamp end = new Timestamp(System.currentTimeMillis());
+            responseTime = end.getTime()-start.getTime();
+            response = content.toString();
+            setConnectionInfo();
+
+        } catch(FileNotFoundException fne) {
+            response = "{\"error\": 404}";
+            responseCode = 404;
         }
-        in.close();
-        Timestamp end = new Timestamp(System.currentTimeMillis());
-        responseTime = end.getTime()-start.getTime();
-        response = content.toString();
-        setConnectionInfo();
         return response;
     }
 
