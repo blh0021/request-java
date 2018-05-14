@@ -47,32 +47,47 @@ public class Authentication {
         return null;
     }
 
+    protected JSONObject clientCredentialsConfig(JSONObject auth) {
+        JSONObject requestTokenConfig = new JSONObject();
+        JSONObject parameters = new JSONObject();
+        JSONObject headers = new JSONObject();
+        headers.put("content-type", "application/x-www-form-urlencoded");
+
+        requestTokenConfig.put("host", auth.getString("accessTokenUrl"));
+        requestTokenConfig.put("method", "POST");
+
+        JSONObject ath = buildBasicAuthConfig(auth);
+        requestTokenConfig.put("auth", ath);
+
+        if (auth.getString("clientAuthentication").equals("header")) {
+            headers.put("grant_type", "client_credentials");
+        } else {
+            requestTokenConfig.put("parameterType", "x-www-form-urlencoded");
+            parameters.put("grant_type", "client_credentials");
+        }
+        requestTokenConfig.put("parameters", parameters);
+        requestTokenConfig.put("headers", headers);
+        return requestTokenConfig;
+    }
+
     protected KeyValuePair OAuth2(JSONObject auth) throws JSONException {
         JSONObject requestTokenConfig = new JSONObject();
         KeyValuePair map = new KeyValuePair();
-        JSONObject parameters = new JSONObject();
-        if (auth.getString("grantType").equals("client_credentials")) {
-            parameters.put("grant_type", "client_credentials");
-            requestTokenConfig.put("host", auth.getString("accessTokenUrl"));
-            requestTokenConfig.put("method", "POST");
-            requestTokenConfig.put("parameters", parameters);
-            if (auth.getString("clientAuthentication").equals("header")) {
-                JSONObject ath = buildBasicAuthConfig(auth);
-                requestTokenConfig.put("auth", ath);
-            }
-
-            Request req = new Request(requestTokenConfig);
-            String data=null;
-            try {
-                data = req.process();
-                logger.info(data);
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
-            JSONObject tdata = new JSONObject(data);
-            map.key = "Authorization";
-            map.value = String.format("Bearer %s", findValue(tdata,"access_token", "accessToken"));
+        switch (auth.getString("grantType")) {
+            case "client_credentials":
+                requestTokenConfig = clientCredentialsConfig(auth);
         }
+        Request req = new Request(requestTokenConfig);
+        String data = null;
+        try {
+            data = req.process();
+            logger.info(data);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        JSONObject tdata = new JSONObject(data);
+        map.key = "Authorization";
+        map.value = String.format("Bearer %s", findValue(tdata, "access_token", "accessToken"));
         return map;
     }
 
@@ -81,11 +96,11 @@ public class Authentication {
         switch (authConfig.getString("type")) {
             case "basic":
                 JSONObject basic = authConfig.getJSONObject("basic");
-                map=BasicAuthentication(basic.getString("username"), basic.getString("password"));
+                map = BasicAuthentication(basic.getString("username"), basic.getString("password"));
                 break;
             case "oauth2":
                 JSONObject oauth2 = authConfig.getJSONObject("oauth2");
-                map=OAuth2(oauth2);
+                map = OAuth2(oauth2);
                 break;
         }
         return map;

@@ -1,0 +1,9 @@
+{
+  "host": "https://mockup-tester.herokuapp.com",
+  "path": "/postEncoded",
+  "method": "POST",
+  "parameterType": "x-www-form-urlencoded",
+  "parameters": {
+    "grant_type": "client_credentials"
+  }
+}

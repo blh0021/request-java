@@ -74,6 +74,10 @@
         }
       }
     },
+    "parameterType": {
+      "type": "string",
+      "enum": ["query", "body", "x-www-form-urlencoded"]
+    },
     "parameters": {
       "type": "object"
     },

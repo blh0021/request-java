@@ -1,0 +1,13 @@
+{
+  "host": "https://mockup-tester.herokuapp.com",
+  "path": "/basicAuth/posts",
+  "method": "POST",
+  "auth": {
+    "type": "basic",
+    "basic": {
+      "username": "test",
+      "password": "pass"
+    }
+  },
+  "": {}
+}

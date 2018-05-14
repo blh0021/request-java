@@ -1,45 +1,55 @@
 package rocks.painless;
 
 import org.junit.jupiter.api.Test;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import rocks.painless.helpers.FileHelper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthenticationTest {
-    private String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-
-    private String getTestFile(String filename) {
-
-        File file = new File(rootPath + filename);
-        String txt = "";
-        String actual=null;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String add;
-            while ((add = br.readLine()) != null) {
-                txt += add;
-            }
-
-            Request req = new Request(txt);
-            actual = req.process();
-        } catch(Exception e) {
-            System.out.println(e);
-        }
-        return actual;
-    }
+    private FileHelper fh = new FileHelper();
 
     @Test
     void BasicAuthTest(){
-        String actual = getTestFile("/basicAuth.json");
+        String txt = fh.getTestFile("/basicAuth.json");
+        String actual = null;
+        Request req = new Request(txt);
+        try {
+            actual = req.process();
+        } catch(Exception e ) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        //System.out.println(actual);
         assertTrue(actual.contains("content"));
     }
 
     @Test
-    void OAuth2() {
-        String actual = getTestFile("/oauth2.json");
+    void OAuth2_Header_Grant_Type() {
+        String txt = fh.getTestFile("/oauth2.json");
+        String actual = null;
+        Request req = new Request(txt);
+        try {
+            actual = req.process();
+        } catch(Exception e ) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        //System.out.println(actual);
+        assertTrue(actual.contains("content"));
+    }
+
+    @Test
+    void OAuth2_Body_Grant_Type() {
+        String txt = fh.getTestFile("/oauth2_param_grantType.json");
+        String actual = null;
+        Request req = new Request(txt);
+        try {
+            actual = req.process();
+        } catch(Exception e ) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        //System.out.println(actual);
         assertTrue(actual.contains("content"));
     }
 }

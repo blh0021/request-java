@@ -17,6 +17,17 @@ public class ParameterBuilder {
     }
 
     protected static String getParameterString(JSONObject params) {
+        if (params.length() < 1) {
+            return "";
+        }
+        return "?" + parameterString(params);
+    }
+
+    protected static byte[] postEncodedParameterString(JSONObject params) {
+        return parameterString(params).getBytes();
+    }
+
+    protected static String parameterString(JSONObject params) {
         if (params.keySet().isEmpty()) {
             return "";
         }
@@ -26,6 +37,6 @@ public class ParameterBuilder {
             String next = key.next();
             paramList.add(String.format("%s=%s", next, params.getString(next)));
         }
-        return "?" + String.join("&", paramList);
+        return String.join("&", paramList);
     }
 }

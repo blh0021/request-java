@@ -9,7 +9,7 @@
       "accessTokenUrl": "https://mockup-tester.herokuapp.com/oauth2/token",
       "clientId": "test",
       "clientSecret": "pass",
-      "clientAuthentication": "header"
+      "clientAuthentication": "body"
     }
   }
 }

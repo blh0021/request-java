@@ -1,5 +1,6 @@
 package rocks.painless;
 
+import com.sun.xml.internal.rngom.digested.DDataPattern;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +46,10 @@ public class RequestProcessor {
 
     protected void buildQueryString() throws Exception {
         String params = "";
-        if (!config.isNull("parameters")) {
-            params = ParameterBuilder.getParameterString(config.getJSONObject("parameters"));
+        if (config.isNull("parameterType") || config.getString("parameterType").equals("query")) {
+            if (!config.isNull("parameters")) {
+                params = ParameterBuilder.getParameterString(config.getJSONObject("parameters"));
+            }
         }
         URL url = new URL(config.getString("host") + getPath() + params);
         connection = (HttpURLConnection) url.openConnection();
@@ -72,8 +75,19 @@ public class RequestProcessor {
         }
     }
 
+    protected void postUrlEncoded() throws IOException {
+        if(config.isNull("parameterType") || !config.getString("parameterType").equals("x-www-form-urlencoded"))
+            return;
+        byte[] postDataBytes = ParameterBuilder.postEncodedParameterString(config.getJSONObject("parameters"));
+        connection.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+        connection.setDoOutput(true);
+        connection.getOutputStream().write(postDataBytes);
+    }
+
     protected String execute() throws IOException {
         Timestamp start = new Timestamp(System.currentTimeMillis());
+        postUrlEncoded();
+
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String input;
