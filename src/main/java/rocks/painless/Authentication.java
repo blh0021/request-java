@@ -56,15 +56,16 @@ public class Authentication {
         requestTokenConfig.put("host", auth.getString("accessTokenUrl"));
         requestTokenConfig.put("method", "POST");
 
-        JSONObject ath = buildBasicAuthConfig(auth);
-        requestTokenConfig.put("auth", ath);
-
         if (auth.getString("clientAuthentication").equals("header")) {
-            headers.put("grant_type", "client_credentials");
+            JSONObject ath = buildBasicAuthConfig(auth);
+            requestTokenConfig.put("auth", ath);
         } else {
-            requestTokenConfig.put("parameterType", "x-www-form-urlencoded");
-            parameters.put("grant_type", "client_credentials");
+            parameters.put("client_id", auth.getString("clientId"));
+            parameters.put("client_secret", auth.getString("clientSecret"));
         }
+        requestTokenConfig.put("parameterType", "x-www-form-urlencoded");
+        parameters.put("grant_type", "client_credentials");
+
         requestTokenConfig.put("parameters", parameters);
         requestTokenConfig.put("headers", headers);
         return requestTokenConfig;

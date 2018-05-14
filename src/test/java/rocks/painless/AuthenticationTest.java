@@ -1,5 +1,6 @@
 package rocks.painless;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import rocks.painless.helpers.FileHelper;
 
@@ -38,7 +39,8 @@ class AuthenticationTest {
         assertTrue(actual.contains("content"));
     }
 
-    @Test
+    //needs to be client credentials sent through body no grantType.
+    @Test @Disabled
     void OAuth2_Body_Grant_Type() {
         String txt = fh.getTestFile("/oauth2_param_grantType.json");
         String actual = null;
